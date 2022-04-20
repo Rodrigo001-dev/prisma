@@ -6,3 +6,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// @id é para informar que ele vai ser uma chave primaria
+// @unique é para informar que o atributo/campo deve ser unico
+model Product {
+  id          String   @id   @default(uuid())
+  name        String
+  bar_code    String   @unique
+  price       Decimal
+  created_at  DateTime  @default(now())
+
+  // qual vai ser o nome da tabela no db
+  @@map("products")
+}
