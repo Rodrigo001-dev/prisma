@@ -18,6 +18,7 @@ model Product {
 
   // qual vai ser o nome da tabela no db
   @@map("products")
+  ProductCategory ProductCategory[]
 }
 
 model Category {
@@ -25,4 +26,22 @@ model Category {
   name  String
 
   @@map("categories")
+  ProductCategory ProductCategory[]
+}
+
+// por ser uma relacionamento de ManyToMany eu preciso criar outra tabela
+model ProductCategory {
+  id          String @id @default(uuid())
+  // fazendo um relacionamento manyToMany e o tipo precisa o mesmo que eu defini
+  // na tabela o id na product é String e o id_product tem que ser String
+  id_product  String
+  // eu tenho que informar qual vai der o model(Product)
+  // dentro de relation eu tenho que informar o campo que eu quero fazer o
+  // relacionamento e o references é qual o campo eu quero referenciar dentro do
+  // model Product
+  product     Product @relation(fields: [id_product], references: [id])
+  id_category String
+  category    Category @relation(fields: [id_category], references: [id])
+
+  @@map("products_categories")
 }
